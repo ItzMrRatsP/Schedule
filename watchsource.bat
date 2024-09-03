@@ -1,0 +1,1 @@
+rojo sourcemap --output sourcemap.json --include-non-scripts --watch

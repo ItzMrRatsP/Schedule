@@ -1,0 +1,1 @@
+{"name":"Package","className":"DataModel","filePaths":["default.project.json"],"children":[{"name":"ReplicatedStorage","className":"ReplicatedStorage","children":[{"name":"Schedule","className":"ModuleScript","filePaths":["src/shared\\Schedule.lua"]}]}]}
