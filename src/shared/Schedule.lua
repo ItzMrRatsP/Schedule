@@ -80,7 +80,6 @@ function Schedule:run_once()
 end
 
 function Schedule:run_loop(): thread
-	-- if not self.unit or not self.unitToTime[self.unit] then return end
 	return task.spawn(function()
 		while #self._jobs > 0 do
 			self:run_once()
