@@ -53,6 +53,7 @@ function Schedule:findJob(jobId: string): number?
 end
 
 function Schedule:doThis(job, ...)
+	if not self.time then return end
 	if not self.timeScale then return end
 
 	local wait_time = self.time * self.timeScale
