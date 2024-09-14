@@ -1,6 +1,4 @@
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Schedule = require(ReplicatedStorage.Schedule).new()
 
 local function SetupPlayer()
 	for _, Player in Players:GetPlayers() do
@@ -12,4 +10,4 @@ local function SetupPlayer()
 	end)
 end
 
-return Schedule:doThis(SetupPlayer):run_once()
+return SetupPlayer
