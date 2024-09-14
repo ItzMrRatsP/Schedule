@@ -1,1 +1,1 @@
-# The package for free use, Packages: Fusion
+# Schedule is package that allows you to run jobs in order and on time.
