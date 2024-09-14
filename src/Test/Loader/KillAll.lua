@@ -1,5 +1,3 @@
-local Players = game:GetService("Players")
-
 local function AfterBoot()
 	while true do
 		print("Prototype running!")
