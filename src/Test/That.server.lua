@@ -1,12 +1,13 @@
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Schedule = require(ReplicatedStorage.Schedule)
 
-Schedule.new(3):seconds():doThis(function()
-	print("hello world")
+local Schedule = require(ReplicatedStorage.Schedule).new()
+
+local function AfterBoot(Player: Player)
+	print(Player.Name .. " Joined the game!")
+	warn("Update Leaderboard")
+end
+
+Players.PlayerAdded:Connect(function(Player: Player)
+	Schedule:every(2):seconds():doThis(AfterBoot)
 end)
-
-Schedule.new(0.35):seconds():doThis(function()
-	print("after hello world")
-end)
-
-Schedule:run_queue()
