@@ -12,7 +12,7 @@ end
 
 function Schedule:every(t: number?)
 	self.time = t
-	self.timeScale = 1
+	self.timeScale = 0
 
 	return self
 end
@@ -53,15 +53,12 @@ function Schedule:findJob(jobId: string): number?
 end
 
 function Schedule:doThis(job, ...)
-	if not self.time then return end
-	if not self.timeScale then return end
-
-	local wait_time = self.time * self.timeScale
+	local wait_time = (self.time or 0) * (self.timeScale or 0)
 	local jobId = HttpService:GenerateGUID(false)
 
 	local wrapped = function(...)
 		task.wait(wait_time)
-		job(...)
+		task.spawn(job, ...)
 	end
 
 	table.insert(self._jobs, {
@@ -70,7 +67,7 @@ function Schedule:doThis(job, ...)
 		args = { ... },
 	})
 
-	return jobId
+	return self, jobId
 end
 
 function Schedule:run_once()
@@ -78,6 +75,8 @@ function Schedule:run_once()
 		if typeof(currentJob) ~= "table" then continue end
 		currentJob.job(table.unpack(currentJob.args))
 	end
+
+	return self._jobs
 end
 
 function Schedule:run_loop(): thread
