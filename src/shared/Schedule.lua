@@ -78,8 +78,8 @@ function Schedule:run(loop: boolean)
 		currentJob.job(table.unpack(currentJob.args))
 	end
 
-	if loop then self:run(true) end
-	return self._jobs
+	if not loop then return end
+	self:run(loop)
 end
 
 function Schedule:cancel_job(jobId: string)
