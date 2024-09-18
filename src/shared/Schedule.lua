@@ -53,7 +53,7 @@ function Schedule:findJob(jobId: string): number?
 end
 
 function Schedule:doThis(job, ...)
-	local wait_time = (self.time or 0) * (self.timeScale or 0)
+	local wait_time = (self.time or 1) * (self.timeScale or 1)
 	local jobId = HttpService:GenerateGUID(false)
 
 	local wrapped = function(...)
@@ -70,21 +70,16 @@ function Schedule:doThis(job, ...)
 	return self, jobId
 end
 
-function Schedule:run_once()
+function Schedule:run(loop: boolean)
+	if self._jobs <= 0 then return end
+
 	for _, currentJob in self._jobs do
 		if typeof(currentJob) ~= "table" then continue end
 		currentJob.job(table.unpack(currentJob.args))
 	end
 
+	if loop then self:run(true) end
 	return self._jobs
-end
-
-function Schedule:run_loop(): thread
-	return task.spawn(function()
-		while #self._jobs > 0 do
-			self:run_once()
-		end
-	end)
 end
 
 function Schedule:cancel_job(jobId: string)
