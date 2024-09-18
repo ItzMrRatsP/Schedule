@@ -83,7 +83,6 @@ function Schedule:run_loop(): thread
 	return task.spawn(function()
 		while #self._jobs > 0 do
 			self:run_once()
-			task.wait()
 		end
 	end)
 end
