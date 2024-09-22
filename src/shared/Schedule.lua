@@ -53,7 +53,7 @@ function Schedule:findJob(jobId: string): number?
 end
 
 function Schedule:doThis(job, ...)
-	local wait_time = (self.time or 1) * (self.timeScale or 1)
+	local waitTime = (self.time or 1) * (self.timeScale or 1)
 	local jobId = HttpService:GenerateGUID(false)
 
 	local wrapped = function(...)
