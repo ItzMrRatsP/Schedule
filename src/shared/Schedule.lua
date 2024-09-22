@@ -57,7 +57,7 @@ function Schedule:doThis(job, ...)
 	local jobId = HttpService:GenerateGUID(false)
 
 	local wrapped = function(...)
-		task.wait(wait_time)
+		task.wait(waitTime)
 		task.spawn(job, ...)
 	end
 
