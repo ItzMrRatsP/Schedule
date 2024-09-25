@@ -56,12 +56,12 @@ function Schedule:doThis(job, ...)
 	local jobId = HttpService:GenerateGUID(false)
 
 	local wrapped = function(it, ...)
-		if it.state == "Busy" then return end -- Busy
-		it.state = "Busy" -- Set state to busy
+		if it.status == "Busy" then return end -- Busy
+		it.status = "Busy" -- Set state to busy
 
 		task.wait(waitTime)
 
-		it.state = "Waitting" -- Set state to waitting
+		it.status = "Waitting" -- Set state to waitting
 		it.lastRunTime = os.clock()
 
 		task.spawn(job, ...)
@@ -70,7 +70,7 @@ function Schedule:doThis(job, ...)
 	table.insert(self._jobs, {
 		job = wrapped,
 		jobId = jobId, -- It will only consider the first on the list
-		state = "Waitting",
+		status = "Waitting",
 		args = { ... },
 	})
 
