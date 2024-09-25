@@ -78,6 +78,8 @@ function Schedule:doThis(job, ...)
 end
 
 function Schedule:run(loop: boolean)
+	if #self.jobs <= 0 then return end
+
 	for _, currentJob in self._jobs do
 		if typeof(currentJob) ~= "table" then continue end
 		task.spawn(currentJob.job, currentJob, table.unpack(currentJob.args))
