@@ -48,44 +48,43 @@ function Schedule:findJob(jobId: string): number?
 		return index
 	end
 
-	warn(`Couldn't find any job with the jobId: {jobId}`)
 	return false -- Couldn't find any job with given jobId
 end
 
 function Schedule:doThis(job, ...)
-	local wait_time = (self.time or 0) * (self.timeScale or 0)
+	local waitTime = (self.time or 0) * (self.timeScale or 0)
 	local jobId = HttpService:GenerateGUID(false)
 
-	local wrapped = function(...)
-		task.wait(wait_time)
+	local wrapped = function(it, ...)
+		if it.state == "Busy" then return end -- Busy
+		it.state = "Busy" -- Set state to busy
+
+		task.wait(waitTime)
+
+		it.state = "Waitting" -- Set state to waitting
+		it.lastRunTime = os.clock()
+
 		task.spawn(job, ...)
 	end
 
 	table.insert(self._jobs, {
 		job = wrapped,
 		jobId = jobId, -- It will only consider the first on the list
+		state = "Waitting",
 		args = { ... },
 	})
 
 	return self, jobId
 end
 
-function Schedule:run_once()
+function Schedule:run(loop: boolean)
 	for _, currentJob in self._jobs do
 		if typeof(currentJob) ~= "table" then continue end
-		currentJob.job(table.unpack(currentJob.args))
+		task.spawn(currentJob.job, currentJob, table.unpack(currentJob.args))
 	end
 
-	return self._jobs
-end
-
-function Schedule:run_loop(): thread
-	return task.spawn(function()
-		while #self._jobs > 0 do
-			self:run_once()
-			task.wait()
-		end
-	end)
+	if not loop then return end
+	self:run(loop)
 end
 
 function Schedule:cancel_job(jobId: string)

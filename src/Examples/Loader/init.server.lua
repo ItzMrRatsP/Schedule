@@ -9,4 +9,4 @@ for _, Module in script:GetChildren() do
 	end)
 end
 
-Schedule:run_once()
+Schedule:run()

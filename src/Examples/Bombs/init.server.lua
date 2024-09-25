@@ -47,4 +47,4 @@ Schedule:every(1):seconds():doThis(SpawnBombs)
 Schedule:every(0.25):seconds():doThis(ExplodeAll)
 
 -- Constant running unless all the jobs get cancelled.
-Schedule:run_loop()
+Schedule:run(true)
