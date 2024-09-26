@@ -6,7 +6,7 @@ Part.Name = "GunShot"
 Part.CFrame = workspace.SpawnCFrame.CFrame * CFrame.new(0, 5, -5)
 Part.Parent = workspace
 
-CustomDebris:AddInstance(5, Part)
+CustomDebris:AddInstance(15, Part)
 
 local NewPart = Instance.new("Part")
 NewPart.Name = "test"
