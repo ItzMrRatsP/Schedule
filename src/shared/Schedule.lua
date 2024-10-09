@@ -86,7 +86,7 @@ function Schedule:run(loop: boolean): thread
 	self:run(loop)
 end
 
-function Schedule:cancel_job(jobId: string)
+function Schedule:cancelJob(jobId: string)
 	local jobIdToIndex = self:findJob(jobId)
 
 	if not jobIdToIndex then
