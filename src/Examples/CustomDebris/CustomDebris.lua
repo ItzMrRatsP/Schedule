@@ -13,7 +13,7 @@ function CustomDebris:AddInstance(After: number, Object: Instance)
 
 	_, JobId = self.Scheduler:every(After):seconds():doThis(function()
 		Object:Destroy()
-		self.Scheduler:cancel_job(JobId)
+		self.Scheduler:cancelJob(JobId)
 	end)
 
 	self.Scheduler:run()
