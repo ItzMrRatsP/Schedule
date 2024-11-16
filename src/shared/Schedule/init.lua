@@ -50,14 +50,23 @@ function Scheduler:Add(Job: (...any) -> (), Time: number, ...)
 	Data.Run = function(...)
 		-- Job is not running anymore
 		Data.Running = true
+
 		-- Wait the time then set job running to false
 		task.wait(Data.Time)
+
+		-- The metatable doesn't exist anymore, so is the job.
+		if not getmetatable(self) then
+			return
+		end
+
 		-- Job isn't running (waitting) anymore, we call the job after this
 		Data.Running = false
+
 		-- Just small checking if the job still exist so we can run it
 		if not self.Jobs[Job] then
 			return
 		end
+
 		-- Now we call the actual job
 		Job(...)
 	end
@@ -137,7 +146,14 @@ function Scheduler:Run(Loop: boolean)
 	end
 
 	task.wait(SmallNumber) -- To avoid crashes
-	self:Run(Loop)
+
+	if not self.Run then
+		return
+	end
+
+	task.spawn(function()
+		self:Run(Loop)
+	end)
 end
 
 function Scheduler:Destroy()
